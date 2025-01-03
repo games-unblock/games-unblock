@@ -1,0 +1,3 @@
+[submodule "Lava-Run-Game"]
+	path = Lava-Run-Game
+	url = https://github.com/sidf3ar/Lava-Run-Game.git
