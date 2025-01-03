@@ -1,6 +1,7 @@
 let playfield, fallingPiece, ghostPiece, paused;
 let ghostMode = true;
 
+
 const width = 10;
 const height = 22;
 
@@ -175,3 +176,4 @@ function keyPressed() {
 
 
 }
+

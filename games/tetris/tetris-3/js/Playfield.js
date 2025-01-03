@@ -1,5 +1,6 @@
 class Playfield {
     constructor(w, h) {
+		this.score = 0;
         // Colors
         this.foreground = [240]; // Empty cells color
         this.background = [50]; // Dark gray background
@@ -33,16 +34,14 @@ class Playfield {
     }
 
     clearLines() {
-        for (let row = this.rows - 1; row >= 0; row--) {
-            // Check if the row is full
-            if (!this.grid[row].includes(this.foreground)) {
-                // Remove the row
-                this.grid.splice(row, 1);
-                // Add an empty row to the top
-                this.grid.unshift(new Array(this.cols).fill(this.foreground));
-            }
-        }
-    }
+		for (let row = this.rows - 1; row >= 0; row--) {
+		  if (!this.grid[row].includes(this.foreground)) {
+			this.grid.splice(row, 1);
+			this.grid.unshift(new Array(this.cols).fill(this.foreground));
+			this.score++;  // Increment score when a line is cleared
+		  }
+		}
+	  }
 
     isValid(piece) {
         for (let row = 0; row < piece.size; row++) {
@@ -95,7 +94,11 @@ class Playfield {
 
                 rect(x, y, this.cellSize, this.cellSize);
             }
-        }
+			fill(255);
+   			textSize(16);
+   			textAlign(RIGHT);
+  			text("Score: " + this.score, width - 20, 20);
+     }
 
         // Draw gridlines
         if (this.gridlines) {
