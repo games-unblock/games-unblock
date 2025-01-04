@@ -1,3 +1,4 @@
+/* Basic page styling */
 body {
     margin: 0;
     padding: 0;
@@ -5,35 +6,89 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #87CEFA; /* Light blue background */
+    background-color: #87CEFA;
     overflow: hidden;
+    position: relative;
+    font-family: 'Arial', sans-serif;
 }
 
+/* Background canvas */
 canvas {
     display: none;
-    border: 2px solid #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
+/* Main Menu Styling */
 .menu {
+    z-index: 10;
     text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    position: relative;
 }
 
-.menu button {
-    padding: 10px 20px;
-    font-size: 18px;
+.menu h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+}
+
+.difficulty-buttons button {
+    padding: 12px 25px;
+    font-size: 20px;
     margin: 10px;
     cursor: pointer;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #ff5733, #ff0000);
+    color: white;
+    transition: all 0.3s ease;
 }
 
+.difficulty-buttons button:hover {
+    background: linear-gradient(45deg, #ff0000, #ff5733);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Impossible button styling */
 .impossible {
-    color: red;
+    color: yellow;
     font-weight: bold;
-    text-shadow: 0 0 5px red, 0 0 10px red;
+    text-shadow: 0 0 5px red, 0 0 15px yellow;
 }
 
-/* Game Over Screen Styles */
+/* Top Runs Section */
+.top-runs {
+    margin-top: 30px;
+}
+
+.top-runs h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #ff5733;
+}
+
+.top-runs ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 18px;
+    color: white;
+}
+
+.top-runs li {
+    padding: 8px 0;
+}
+
+/* Game Over Screen */
 .overlay {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;

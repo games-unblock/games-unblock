@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avoid the Red Balls</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <canvas id="backgroundCanvas"></canvas> <!-- Background canvas -->
     <div class="menu">
         <h1>Avoid the Red Balls</h1>
-        <button id="easy">Easy</button>
-        <button id="medium">Medium</button>
-        <button id="hard">Hard</button>
-        <br>
-        <button id="impossible" class="impossible">Impossible</button>
+        <div class="difficulty-buttons">
+            <button id="easy">Easy</button>
+            <button id="medium">Medium</button>
+            <button id="hard">Hard</button>
+            <button id="impossible" class="impossible">Impossible</button>
+        </div>
+        <div class="top-runs">
+            <h2>Top 3 Runs</h2>
+            <ul id="topRunsList">
+                <!-- Top runs will be dynamically added here -->
+            </ul>
+        </div>
     </div>
     <canvas id="gameCanvas"></canvas>
 
@@ -24,11 +30,12 @@
         <div class="overlay-content">
             <h1>Game Over</h1>
             <p>Press Space to Restart</p>
+            <p id="game-time">You lasted: 0 seconds</p>
             <a href="index.html">Back to Main Menu</a>
         </div>
     </div>
 
     <script src="sketch.js"></script>
 </body>
-
 </html>
+
