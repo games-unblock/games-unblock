@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="backgroundCanvas"></canvas> <!-- Background canvas -->
+    <!-- Background canvas for any effects -->
+    <canvas id="backgroundCanvas"></canvas>
+
     <div class="menu">
         <h1>Avoid the Red Balls</h1>
         <div class="difficulty-buttons">
@@ -17,12 +19,26 @@
             <button id="impossible" class="impossible">Impossible</button>
         </div>
         <div class="top-runs">
-            <h2>Top 3 Runs</h2>
-            <ul id="topRunsList">
-                <!-- Top runs will be dynamically added here -->
-            </ul>
+            <div id="easyRuns" class="mode-section">
+                <h3 class="mode-header">Easy Mode</h3>
+                <ul id="easyRunsList"></ul>
+            </div>
+            <div id="mediumRuns" class="mode-section">
+                <h3 class="mode-header">Medium Mode</h3>
+                <ul id="mediumRunsList"></ul>
+            </div>
+            <div id="hardRuns" class="mode-section">
+                <h3 class="mode-header">Hard Mode</h3>
+                <ul id="hardRunsList"></ul>
+            </div>
+            <div id="impossibleRuns" class="mode-section">
+                <h3 class="mode-header">Impossible Mode</h3>
+                <ul id="impossibleRunsList"></ul>
+            </div>
         </div>
     </div>
+
+    <!-- Main game canvas -->
     <canvas id="gameCanvas"></canvas>
 
     <!-- Game Over Screen -->
@@ -38,4 +54,3 @@
     <script src="sketch.js"></script>
 </body>
 </html>
-

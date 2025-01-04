@@ -18,30 +18,40 @@ let timeElapsed = 0; // Timer variable
 let shieldTime = 3; // Shield time in seconds
 let shieldActive = true; // Flag to track shield state
 
-// Function to save the top 3 runs in localStorage
-function saveTopRun(time) {
-    let topRuns = JSON.parse(localStorage.getItem('topRuns')) || [];
+// Function to save the top 3 runs in localStorage per difficulty
+function saveTopRun(time, difficulty) {
+    let topRuns = JSON.parse(localStorage.getItem(`${difficulty}TopRuns`)) || [];
     topRuns.push(time);
     topRuns.sort((a, b) => b - a); // Sort in descending order
     topRuns = topRuns.slice(0, 3); // Keep only top 3
-    localStorage.setItem('topRuns', JSON.stringify(topRuns));
-    updateTopRunsList();
+    localStorage.setItem(`${difficulty}TopRuns`, JSON.stringify(topRuns));
+    updateTopRunsList(difficulty);
 }
 
-// Update the list of top 3 runs in the main menu
-function updateTopRunsList() {
-    const topRunsList = document.getElementById('topRunsList');
-    const topRuns = JSON.parse(localStorage.getItem('topRuns')) || [];
+// Update the list of top 3 runs in the main menu per difficulty
+function updateTopRunsList(difficulty) {
+    const topRunsList = document.getElementById(`${difficulty}RunsList`);
+    if (!topRunsList) return; // Guard clause in case element doesn't exist
+
+    const topRuns = JSON.parse(localStorage.getItem(`${difficulty}TopRuns`)) || [];
     topRunsList.innerHTML = ''; // Clear the current list
-    topRuns.forEach((time, index) => {
+
+    // Add placeholder entries if less than 3 scores
+    const displayRuns = [...topRuns];
+    while (displayRuns.length < 3) {
+        displayRuns.push(0);
+    }
+
+    displayRuns.forEach((time, index) => {
         const li = document.createElement('li');
-        li.textContent = `#${index + 1} - ${Math.floor(time)}s`;
+        li.textContent = time > 0 ? `#${index + 1} - ${Math.floor(time)}s` : `#${index + 1} - None`;
         topRunsList.appendChild(li);
     });
 }
 
 // Start the game with the given speed and red ball count
-function startGame(speed, count) {
+function startGame(speed, count, difficulty) {
+    console.log('Game starting with difficulty:', difficulty, 'speed:', speed, 'and count:', count); // Debug log
     document.querySelector('.menu').style.display = 'none';
     canvas.style.display = 'block';
     gameOver = false;  // Reset game over status
@@ -60,6 +70,7 @@ function startGame(speed, count) {
         });
     }
     draw();
+    localStorage.setItem('currentDifficulty', difficulty);  // Store current difficulty
 }
 
 // Draw a ball on the canvas
@@ -144,8 +155,9 @@ function endGame() {
     timeDisplay.textContent = `You lasted: ${Math.floor(timeElapsed)} seconds`;
     timeDisplay.style.color = 'red';
 
-    // Save the top runs
-    saveTopRun(timeElapsed);
+    // Get current difficulty from storage and save the run
+    const currentDifficulty = localStorage.getItem('currentDifficulty');
+    saveTopRun(timeElapsed, currentDifficulty);
 }
 
 // Restart the game
@@ -155,7 +167,8 @@ function restartGame() {
     player.x = canvas.width / 2;
     player.y = canvas.height / 2;
     redBalls = [];
-    startGame(2.5, 10); // Restart the game with default difficulty
+    const currentDifficulty = localStorage.getItem('currentDifficulty') || 'easy';  // Default to 'easy' if no value
+    startGame(2.5, 10, currentDifficulty); // Restart the game with selected difficulty
 }
 
 // Event listeners for mouse movement
@@ -167,10 +180,10 @@ window.addEventListener('mousemove', event => {
 });
 
 // Event listeners for difficulty buttons
-document.getElementById('easy').addEventListener('click', () => startGame(1.5, 7));
-document.getElementById('medium').addEventListener('click', () => startGame(2.5, 10));
-document.getElementById('hard').addEventListener('click', () => startGame(3, 15));
-document.getElementById('impossible').addEventListener('click', () => startGame(4, 60));
+document.getElementById('easy').addEventListener('click', () => startGame(1.5, 7, 'easy'));
+document.getElementById('medium').addEventListener('click', () => startGame(2.5, 10, 'medium'));
+document.getElementById('hard').addEventListener('click', () => startGame(3, 15, 'hard'));
+document.getElementById('impossible').addEventListener('click', () => startGame(4, 60, 'impossible'));
 
 // Event listener for restarting the game with spacebar
 document.addEventListener('keydown', function(event) {
@@ -185,5 +198,5 @@ document.querySelector('.overlay a').addEventListener('click', function(event) {
     window.location.href = 'index.html';  // Navigate back to main menu
 });
 
-// Initialize the top runs list
-updateTopRunsList();
+// Initialize the top runs list for each difficulty
+['easy', 'medium', 'hard', 'impossible'].forEach(difficulty => updateTopRunsList(difficulty));
