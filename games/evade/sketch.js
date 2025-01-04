@@ -180,9 +180,9 @@ window.addEventListener('mousemove', event => {
 });
 
 // Event listeners for difficulty buttons
-document.getElementById('easy').addEventListener('click', () => startGame(1.5, 7, 'easy'));
-document.getElementById('medium').addEventListener('click', () => startGame(2.5, 10, 'medium'));
-document.getElementById('hard').addEventListener('click', () => startGame(3, 15, 'hard'));
+document.getElementById('easy').addEventListener('click', () => startGame(2, 15, 'easy'));
+document.getElementById('medium').addEventListener('click', () => startGame(3, 25, 'medium'));
+document.getElementById('hard').addEventListener('click', () => startGame(4, 35, 'hard'));
 document.getElementById('impossible').addEventListener('click', () => startGame(4, 60, 'impossible'));
 
 // Event listener for restarting the game with spacebar
