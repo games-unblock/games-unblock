@@ -1,0 +1,47 @@
+body {
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+a {
+    display: block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    border: 2px solid white;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #444, #111);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s, transform 0.2s;
+}
+
+a:hover {
+    background: linear-gradient(145deg, #555, #333);
+    transform: scale(1.05);
+}
+
+a:active {
+    background: linear-gradient(145deg, #333, #555);
+}
+
+.container {
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+}
