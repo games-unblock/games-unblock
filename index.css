@@ -1,0 +1,27 @@
+body {
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.center-box {
+    border: 5px solid white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    background: linear-gradient(145deg, #d1d1d1, #b0b0b0);
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    color: white !important;
+    font-size: 75px;
+    margin: 0;
+}
