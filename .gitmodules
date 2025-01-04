@@ -1,3 +1,6 @@
 [submodule "Lava-Run-Game"]
 	path = Lava-Run-Game
 	url = https://github.com/sidf3ar/Lava-Run-Game.git
+[submodule "tetris"]
+	path = tetris
+	url = https://github.com/skele6011/tetris.git
