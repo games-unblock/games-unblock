@@ -1,15 +1,10 @@
-let game = 200;
-let touchStartX = 0;
-let lastTapTime = 0;
-let lastTapX = 0;
+let game = 200
 
 function setup() {
-    // Make canvas responsive
-    let canvasSize = min(windowWidth - 20, 400);
-    createCanvas(canvasSize, canvasSize);
-}
+    createCanvas(400, 400);
+  }
 
-function draw() {
+  function draw() {
     background("orange");
     noStroke();
     fill("blue");
@@ -28,9 +23,8 @@ function draw() {
         text("Orange Wins!", width/2, height/2);
         noLoop();
     }
-}
-
-function keyPressed(){
+  }
+  function keyPressed(){
     if (key == "z") {
         game += 10;
     }
@@ -41,34 +35,28 @@ function keyPressed(){
         game = 200;
         loop();
     }
+  }
+
+function resetGame() {
+    game = 200;
+    loop();
 }
 
-function touchStarted() {
-    touchStartX = mouseX;
-    
-    // Left side tap
+function mousePressed() {
+    // Left side click/tap
     if (mouseX < width/2) {
         game += 10;
     }
-    // Right side tap
+    // Right side click/tap
     if (mouseX > width/2) {
         game -= 10;
     }
-    
-    // Tap both sides quickly to restart (within 300ms)
-    if (millis() - lastTapTime < 300 && abs(touchStartX - lastTapX) > width/2) {
-        game = 200;
-        loop();
-    }
-    
-    lastTapTime = millis();
-    lastTapX = touchStartX;
-    
-    return false; // Prevent default
+    return false; // Prevents default behavior
 }
 
-function windowResized() {
-    let canvasSize = min(windowWidth - 20, 400);
-    resizeCanvas(canvasSize, canvasSize);
+function touchStarted() {
+    // Use same logic as mousePressed
+    mousePressed();
+    return false; // Prevents default behavior
 }
 

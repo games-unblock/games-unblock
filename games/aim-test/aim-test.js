@@ -7,10 +7,7 @@ let score = 0;
 let highScore;
 
 function setup() {
-  // Make canvas full width on mobile, but cap at 720px
-  let canvasWidth = min(windowWidth - 20, 720);
-  let canvasHeight = min(windowHeight - 20, 400);
-  createCanvas(canvasWidth, canvasHeight);
+  createCanvas(720, 400);
   colorMode(HSB);
   noStroke();
   ellipseMode(RADIUS);
@@ -107,18 +104,4 @@ function mousePressed() {
     startGame();
     loop();
   }
-}
-
-function touchStarted() {
-  // Call mousePressed function for touch events
-  mousePressed();
-  // Prevent default touch behavior
-  return false;
-}
-
-// Add window resize handling
-function windowResized() {
-  let canvasWidth = min(windowWidth - 20, 720);
-  let canvasHeight = min(windowHeight - 20, 400);
-  resizeCanvas(canvasWidth, canvasHeight);
 }
