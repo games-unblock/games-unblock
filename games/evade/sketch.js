@@ -106,9 +106,15 @@ function draw() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Update player position using both mouse and analog stick
+    updatePlayerPosition();
+
     // Draw the player and red balls
     drawBall({ ...player, color: player.color });
     redBalls.forEach(ball => drawBall({ ...ball, color: 'red' }));
+    
+    // Draw the analog stick
+    drawAnalogStick(ctx);
 
     // Draw the timer in the top right corner
     ctx.font = '20px Arial';
