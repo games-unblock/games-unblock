@@ -1,10 +1,17 @@
-let game = 200
+let game = 200;
 
 function setup() {
-    createCanvas(400, 400);
-  }
+    // Make canvas size responsive but maintain square aspect ratio
+    let size = min(windowWidth * 0.9, windowHeight * 0.7, 600);
+    createCanvas(size, size);
+}
 
-  function draw() {
+function windowResized() {
+    let size = min(windowWidth * 0.9, windowHeight * 0.7, 600);
+    resizeCanvas(size, size);
+}
+
+function draw() {
     background("orange");
     noStroke();
     fill("blue");
@@ -23,8 +30,8 @@ function setup() {
         text("Orange Wins!", width/2, height/2);
         noLoop();
     }
-  }
-  function keyPressed(){
+}
+function keyPressed(){
     if (key == "z") {
         game += 10;
     }
@@ -35,7 +42,7 @@ function setup() {
         game = 200;
         loop();
     }
-  }
+}
 
 function resetGame() {
     game = 200;
@@ -43,11 +50,10 @@ function resetGame() {
 }
 
 function mousePressed() {
-    // Left side click/tap
+    // Adjust to use relative position for better mobile support
     if (mouseX < width/2) {
         game += 10;
     }
-    // Right side click/tap
     if (mouseX > width/2) {
         game -= 10;
     }
