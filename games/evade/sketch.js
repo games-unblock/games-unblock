@@ -12,9 +12,18 @@ let timeElapsed = 0; // Timer variable
 // Function to save the top 3 runs in localStorage per difficulty
 function saveTopRun(time, difficulty) {
     let topRuns = JSON.parse(localStorage.getItem(`${difficulty}TopRuns`)) || [];
-    topRuns.push(time);
-    topRuns.sort((a, b) => b - a); // Sort in descending order
-    topRuns = topRuns.slice(0, 3); // Keep only top 3
+    // Include device info with the score
+    topRuns.push({
+        time: time,
+        device: localStorage.getItem('selectedDevice') || 'computer'
+    });
+    
+    // Sort by time in descending order (highest first)
+    topRuns.sort((a, b) => (b.time || 0) - (a.time || 0));
+    
+    // Keep only top 3
+    topRuns = topRuns.slice(0, 3);
+    
     localStorage.setItem(`${difficulty}TopRuns`, JSON.stringify(topRuns));
     updateTopRunsList(difficulty);
 }
@@ -27,15 +36,25 @@ function updateTopRunsList(difficulty) {
     const topRuns = JSON.parse(localStorage.getItem(`${difficulty}TopRuns`)) || [];
     topRunsList.innerHTML = ''; // Clear the current list
 
-    // Add placeholder entries if less than 3 scores
-    const displayRuns = [...topRuns];
-    while (displayRuns.length < 3) {
-        displayRuns.push(0);
-    }
+    // Create array of 3 slots
+    const displayRuns = Array(3).fill({ time: 0, device: 'none' });
+    
+    // Fill in actual scores
+    topRuns.forEach((run, index) => {
+        if (index < 3) {
+            displayRuns[index] = run;
+        }
+    });
 
-    displayRuns.forEach((time, index) => {
+    // Display all slots
+    displayRuns.forEach((run, index) => {
         const li = document.createElement('li');
-        li.textContent = time > 0 ? `#${index + 1} - ${Math.floor(time)}s` : `#${index + 1} - None`;
+        if (run && run.time && run.time > 0) {
+            const deviceIcon = run.device === 'computer' ? '💻' : '📱';
+            li.textContent = `#${index + 1} - ${Math.floor(run.time)}s ${deviceIcon}`;
+        } else {
+            li.textContent = `#${index + 1} - None`;
+        }
         topRunsList.appendChild(li);
     });
 }

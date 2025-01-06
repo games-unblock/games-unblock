@@ -12,3 +12,38 @@ document.querySelector('.overlay a').addEventListener('click', function(event) {
 
 // Initialize the top runs list for each difficulty
 ['easy', 'medium', 'hard', 'impossible'].forEach(difficulty => updateTopRunsList(difficulty));
+
+// Add device selection state
+let selectedDevice = localStorage.getItem('selectedDevice') || 'computer';
+
+// Device selection handling
+function initDeviceSelection() {
+    const computerBtn = document.getElementById('computerDevice');
+    const phoneBtn = document.getElementById('phoneDevice');
+    
+    // Set initial state
+    updateDeviceButtons();
+    
+    computerBtn.addEventListener('click', () => {
+        selectedDevice = 'computer';
+        localStorage.setItem('selectedDevice', selectedDevice);
+        updateDeviceButtons();
+    });
+    
+    phoneBtn.addEventListener('click', () => {
+        selectedDevice = 'phone';
+        localStorage.setItem('selectedDevice', selectedDevice);
+        updateDeviceButtons();
+    });
+}
+
+function updateDeviceButtons() {
+    const computerBtn = document.getElementById('computerDevice');
+    const phoneBtn = document.getElementById('phoneDevice');
+    
+    computerBtn.classList.toggle('selected', selectedDevice === 'computer');
+    phoneBtn.classList.toggle('selected', selectedDevice === 'phone');
+}
+
+// Initialize device selection
+initDeviceSelection();
