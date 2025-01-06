@@ -28,6 +28,17 @@ const analogStick = {
     offsetY: 0
 };
 
+// Add touch control variables
+const touchControl = {
+    active: false,
+    startX: 0,
+    startY: 0,
+    currentX: 0,
+    currentY: 0,
+    playerStartX: 0,
+    playerStartY: 0
+};
+
 // Track mouse position
 let mouseX = canvas.width / 2;
 let mouseY = canvas.height / 2;
@@ -157,12 +168,12 @@ function updatePlayerPosition() {
         // Update analog stick from keyboard
         updateAnalogFromKeys();
         
-        // Handle analog stick influence with momentum
+        // Handle analog stick and touch influence with momentum
         if (analogStick.offsetX !== 0 || analogStick.offsetY !== 0 || keys.up || keys.down || keys.left || keys.right) {
             // Apply acceleration in analog direction
             player.velocityX += analogStick.offsetX * ACCELERATION;
             player.velocityY += analogStick.offsetY * ACCELERATION;
-        } else {
+        } else if (!touchControl.active) {
             // Apply stronger friction when no input
             player.velocityX *= 0.98;  // Increased from 0.95 for smoother stopping
             player.velocityY *= 0.98;
@@ -210,6 +221,16 @@ window.addEventListener('touchstart', (e) => {
     const dy = touchY - analogStick.baseY;
     if (Math.sqrt(dx * dx + dy * dy) < analogStick.radius) {
         analogStick.active = true;
+    } else if (selectedDevice === 'phone') {
+        // Initialize relative touch control
+        touchControl.active = true;
+        touchControl.startX = touchX;
+        touchControl.startY = touchY;
+        touchControl.currentX = touchX;
+        touchControl.currentY = touchY;
+        touchControl.playerStartX = player.x;
+        touchControl.playerStartY = player.y;
+        e.preventDefault();
     }
 });
 
@@ -232,15 +253,32 @@ window.addEventListener('touchmove', (e) => {
         analogStick.offsetX = (analogStick.x - analogStick.baseX) / analogStick.radius;
         analogStick.offsetY = (analogStick.y - analogStick.baseY) / analogStick.radius;
         e.preventDefault();
+    } else if (touchControl.active) {
+        const touch = e.touches[0];
+        touchControl.currentX = touch.clientX;
+        touchControl.currentY = touch.clientY;
+        
+        // Calculate movement delta
+        const deltaX = (touchControl.currentX - touchControl.startX) * 1.5;
+        const deltaY = (touchControl.currentY - touchControl.startY) * 1.5;
+        
+        // Apply movement to velocity instead of direct position
+        player.velocityX += deltaX * 0.01;
+        player.velocityY += deltaY * 0.01;
+        
+        e.preventDefault();
     }
 });
 
-window.addEventListener('touchend', () => {
-    analogStick.active = false;
-    analogStick.x = analogStick.baseX;
-    analogStick.y = analogStick.baseY;
-    analogStick.offsetX = 0;
-    analogStick.offsetY = 0;
+window.addEventListener('touchend', (e) => {
+    if (analogStick.active) {
+        analogStick.active = false;
+        analogStick.x = analogStick.baseX;
+        analogStick.y = analogStick.baseY;
+        analogStick.offsetX = 0;
+        analogStick.offsetY = 0;
+    }
+    touchControl.active = false;
 });
 
 // Initialize analog stick position
