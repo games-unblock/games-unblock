@@ -58,19 +58,23 @@ function resetGame() {
 }
 
 function mousePressed() {
-    // Adjust to use relative position for better mobile support
-    if (mouseX < width/2) {
-        game += moveAmount;
+    // Check if click/tap is within canvas bounds AND not in bottom 20% of canvas
+    if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height * 0.8) {
+        // If clicked on blue area (left)
+        if (mouseX <= game) {
+            game += moveAmount;
+        }
+        // If clicked on orange area (right)
+        else if (mouseX > game) {
+            game -= moveAmount;
+        }
+        return false;
     }
-    if (mouseX > width/2) {
-        game -= moveAmount;
-    }
-    return false; // Prevents default behavior
+    return true;
 }
 
 function touchStarted() {
-    // Use same logic as mousePressed
-    mousePressed();
-    return false; // Prevents default behavior
+    // Use the same logic as mousePressed
+    return mousePressed();
 }
 
