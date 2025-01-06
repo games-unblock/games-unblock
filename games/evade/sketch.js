@@ -3,20 +3,11 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const player = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    radius: 15,
-    color: 'purple'
-};
-
 let redBalls = [];
 let redBallSpeed;
 let redBallCount;
 let gameOver = false;
 let timeElapsed = 0; // Timer variable
-let shieldTime = 3; // Shield time in seconds
-let shieldActive = true; // Flag to track shield state
 
 // Function to save the top 3 runs in localStorage per difficulty
 function saveTopRun(time, difficulty) {
@@ -56,7 +47,7 @@ function startGame(speed, count, difficulty) {
     canvas.style.display = 'block';
     gameOver = false;  // Reset game over status
     timeElapsed = 0;   // Reset the timer
-    shieldActive = true;  // Activate the shield
+    resetShield();  // Call the new reset function from character.js
     redBallSpeed = speed;
     redBallCount = count;
     redBalls = [];
@@ -97,7 +88,7 @@ function updateRedBalls() {
         }
 
         // If shield is active, skip collision check
-        if (!shieldActive) {
+        if (!shieldActive) {  // Using shieldActive from character.js
             // Check for collision with player
             const distX = ball.x - player.x;
             const distY = ball.y - player.y;
@@ -124,22 +115,11 @@ function draw() {
     ctx.fillStyle = 'black';
     ctx.fillText(`Time: ${Math.floor(timeElapsed)}s`, canvas.width - 150, 30);
 
-    // Draw shield countdown (optional visual indicator)
-    if (shieldActive) {
-        ctx.font = '18px Arial';
-        ctx.fillStyle = 'green';
-        ctx.fillText(`Shield: ${Math.ceil(shieldTime)}s`, canvas.width - 150, 60);
-    }
+    // Use the new shield drawing function
+    drawShield(ctx);
 
-    // Increment the timer and decrease shield time
     timeElapsed += 1 / 60;
-    if (shieldActive) {
-        shieldTime -= 1 / 60;
-        if (shieldTime <= 0) {
-            shieldActive = false; // Deactivate shield after 3 seconds
-        }
-    }
-
+    updateShield();  // Use the new shield update function
     updateRedBalls();
     requestAnimationFrame(draw); // Call draw function repeatedly
 }
@@ -179,24 +159,9 @@ window.addEventListener('mousemove', event => {
     }
 });
 
-// Event listeners for difficulty buttons
-document.getElementById('easy').addEventListener('click', () => startGame(2, 15, 'easy'));
-document.getElementById('medium').addEventListener('click', () => startGame(3, 25, 'medium'));
-document.getElementById('hard').addEventListener('click', () => startGame(4, 35, 'hard'));
-document.getElementById('impossible').addEventListener('click', () => startGame(4, 60, 'impossible'));
-
 // Event listener for restarting the game with spacebar
 document.addEventListener('keydown', function(event) {
     if (event.key === ' ') {
         restartGame();
     }
 });
-
-// Back to the main menu
-document.querySelector('.overlay a').addEventListener('click', function(event) {
-    event.preventDefault();
-    window.location.href = 'index.html';  // Navigate back to main menu
-});
-
-// Initialize the top runs list for each difficulty
-['easy', 'medium', 'hard', 'impossible'].forEach(difficulty => updateTopRunsList(difficulty));
