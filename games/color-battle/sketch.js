@@ -65,7 +65,7 @@ function mousePressed() {
             game += moveAmount;
         }
         // If clicked on orange area (right)
-        else if (mouseX > game) {
+        if (mouseX > game) {
             game -= moveAmount;
         }
         return false;
@@ -77,4 +77,3 @@ function touchStarted() {
     // Use the same logic as mousePressed
     return mousePressed();
 }
-
