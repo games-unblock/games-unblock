@@ -66,8 +66,16 @@ function resetShield() {
 }
 
 function initAnalogStick() {
-    analogStick.baseX = canvas.width - analogStick.radius * 2;
-    analogStick.baseY = canvas.height - analogStick.radius * 2;
+    const isMobile = localStorage.getItem('selectedDevice') === 'phone';
+    if (isMobile) {
+        // Position analog stick more comfortably for mobile
+        analogStick.baseX = analogStick.radius * 1.5;
+        analogStick.baseY = canvas.height - analogStick.radius * 1.5;
+    } else {
+        // Original position for desktop
+        analogStick.baseX = canvas.width - analogStick.radius * 2;
+        analogStick.baseY = canvas.height - analogStick.radius * 2;
+    }
     analogStick.x = analogStick.baseX;
     analogStick.y = analogStick.baseY;
 }
