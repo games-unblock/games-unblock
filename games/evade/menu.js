@@ -6,7 +6,7 @@ document.getElementById('impossible').addEventListener('click', () => {
     const ballCount = localStorage.getItem('selectedDevice') === 'phone' ? 
         Math.floor(60 / 2) : // Reduce balls by 1.3x for phone
         60;                     // Original count for computer
-    startGame(4, ballCount, 'impossible');
+    startGame(8, ballCount, 'impossible');
 });
 
 // Back to the main menu
