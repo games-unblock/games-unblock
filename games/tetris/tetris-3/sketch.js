@@ -245,6 +245,29 @@ let dropCounter = 0;
 let lastTime = 0;
 let isLocking = false;
 
+// Add these variables near the top with other global variables
+let gameActive = true;
+
+// Add this function near other initialization functions
+function resetGame() {
+    board = Array(BOARD_HEIGHT).fill().map(() => Array(BOARD_WIDTH).fill(0));
+    score = 0;
+    level = 1;
+    totalLinesCleared = 0;
+    dropScore = 0;
+    gameActive = true;
+    holdPiece = {
+        shape: null,
+        color: null
+    };
+    nextPiece = {
+        shape: null,
+        color: null
+    };
+    createPiece();
+    draw();
+}
+
 // Replace the update function
 function update(deltaTime) {
     dropCounter += deltaTime;
@@ -383,7 +406,9 @@ function gameLoop(time = 0) {
     const deltaTime = time - lastTime;
     lastTime = time;
     
-    update(deltaTime);
+    if (gameActive) {
+        update(deltaTime);
+    }
     draw();
     requestAnimationFrame(gameLoop);
 }
@@ -541,6 +566,22 @@ function updateSidePanel() {
     // Draw lines
     ctx.fillText('Lines:', previewX + boxSize/2, 17 * BLOCK_SIZE);
     ctx.fillText(totalLinesCleared, previewX + boxSize/2, 18 * BLOCK_SIZE);
+
+    // Draw restart button
+    const buttonX = previewX + boxSize/4;
+    const buttonY = 19 * BLOCK_SIZE;
+    const buttonWidth = boxSize/2;
+    const buttonHeight = BLOCK_SIZE;
+    
+    ctx.fillStyle = '#e74c3c';
+    ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+    ctx.strokeStyle = 'white';
+    ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
+    
+    ctx.fillStyle = 'white';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Restart', buttonX + buttonWidth/2, buttonY + buttonHeight*0.7);
 }
 
 function holdCurrentPiece() {
@@ -609,6 +650,23 @@ function drawHoldPiece() {
         });
     }
 }
+
+// Add click handler for restart button
+canvas.addEventListener('click', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    
+    const buttonX = (BOARD_WIDTH + 1) * BLOCK_SIZE + 5 * BLOCK_SIZE/4;
+    const buttonY = 19 * BLOCK_SIZE;
+    const buttonWidth = 5 * BLOCK_SIZE/2;
+    const buttonHeight = BLOCK_SIZE;
+    
+    if (clickX >= buttonX && clickX <= buttonX + buttonWidth &&
+        clickY >= buttonY && clickY <= buttonY + buttonHeight) {
+        resetGame();
+    }
+});
 
 createPiece();
 gameLoop();
