@@ -47,10 +47,13 @@ function initDeviceSelection() {
     updateViewportScale(selectedDevice === 'phone');
 }
 
+let rotationOverlayDismissed = false;
+
 function updateViewportScale(isMobile) {
     const viewport = document.querySelector('meta[name=viewport]');
     if (isMobile) {
         viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape');
+        rotationOverlayDismissed = false;
         checkOrientation();
     } else {
         viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
@@ -59,7 +62,7 @@ function updateViewportScale(isMobile) {
 }
 
 function checkOrientation() {
-    if (selectedDevice === 'phone') {
+    if (selectedDevice === 'phone' && !rotationOverlayDismissed) {
         if (window.innerHeight > window.innerWidth) {
             showRotationOverlay();
         } else {
@@ -70,7 +73,7 @@ function checkOrientation() {
 
 function showRotationOverlay() {
     const overlay = document.querySelector('.rotation-overlay');
-    if (overlay) {
+    if (overlay && !rotationOverlayDismissed) {
         overlay.style.display = 'flex';
     }
 }
@@ -79,6 +82,7 @@ function hideRotationOverlay() {
     const overlay = document.querySelector('.rotation-overlay');
     if (overlay) {
         overlay.style.display = 'none';
+        rotationOverlayDismissed = true;
     }
 }
 

@@ -201,6 +201,23 @@ canvas {
     to { transform: rotate(90deg); }
 }
 
+.rotation-overlay button {
+    margin-top: 20px;
+    padding: 10px 30px;
+    font-size: 18px;
+    background: #fff;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rotation-overlay button:hover {
+    background: #eee;
+    transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
     .menu {
         padding: 30px 20px;
