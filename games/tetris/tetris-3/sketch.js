@@ -668,5 +668,12 @@ canvas.addEventListener('click', (event) => {
     }
 });
 
+// Add keydown handler for restart
+document.addEventListener('keydown', event => {
+    if (event.key === 'r') {
+        resetGame();
+    }
+});
+
 createPiece();
 gameLoop();
